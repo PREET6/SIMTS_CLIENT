@@ -71,7 +71,7 @@ class Config:
     # ---------------------------------------------------------
     MAX_CONTENT_LENGTH = int(
         os.getenv('MAX_CONTENT_LENGTH')
-        or '10485760'
+        or ('4194304' if os.getenv('VERCEL') else '10485760')
     )
 
     MAX_FORM_MEMORY_SIZE = int(

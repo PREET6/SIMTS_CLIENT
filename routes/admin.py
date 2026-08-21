@@ -11,6 +11,7 @@ from extensions import db
 from models import Admin, AuditLog, Certificate, ContactMessage, Course, Marksheet, Student
 from security import admin_required, audit
 from services.backup import create_backup
+from services.blob_storage import blob_enabled, delete_file, upload_pdf, BlobStorageError
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -202,11 +203,23 @@ def delete_student(student_id):
     sid = student.student_id
     name = student.full_name
 
-    upload_dir = Path(current_app.config['UPLOAD_FOLDER']).resolve()
-    for cert in student.certificates:
-        (upload_dir / cert.file_name).unlink(missing_ok=True)
-    for mark in student.marksheets:
-        (upload_dir / mark.file_name).unlink(missing_ok=True)
+    if blob_enabled():
+        for cert in student.certificates:
+            try:
+                delete_file(cert.file_name)
+            except BlobStorageError:
+                pass
+        for mark in student.marksheets:
+            try:
+                delete_file(mark.file_name)
+            except BlobStorageError:
+                pass
+    else:
+        upload_dir = Path(current_app.config['UPLOAD_FOLDER']).resolve()
+        for cert in student.certificates:
+            (upload_dir / cert.file_name).unlink(missing_ok=True)
+        for mark in student.marksheets:
+            (upload_dir / mark.file_name).unlink(missing_ok=True)
 
     db.session.delete(student)
     db.session.commit()
@@ -383,10 +396,22 @@ def certificates():
             return redirect(url_for('admin.certificates'))
 
         filename = secure_filename(f'cert_{number}') + '.pdf'
-        upload_dir = Path(current_app.config['UPLOAD_FOLDER']).resolve()
-        upload_dir.mkdir(parents=True, exist_ok=True)
-        target = upload_dir / filename
-        pdf.save(target)
+        target = None
+        blob_reference = None
+
+        try:
+            if blob_enabled():
+                blob_reference = upload_pdf(pdf, 'certificates', filename)
+                file_reference = blob_reference
+            else:
+                upload_dir = Path(current_app.config['UPLOAD_FOLDER']).resolve()
+                upload_dir.mkdir(parents=True, exist_ok=True)
+                target = upload_dir / filename
+                pdf.save(target)
+                file_reference = filename
+        except BlobStorageError as exc:
+            flash(str(exc), 'error')
+            return redirect(url_for('admin.certificates'))
 
         issue_date_val = request.form.get('issue_date')
         if issue_date_val:
@@ -403,7 +428,7 @@ def certificates():
                 student_id=student.id,
                 issue_date=issue_date,
                 status='valid',
-                file_name=filename,
+                file_name=file_reference,
             )
             db.session.add(certificate)
             student.certificate_number = number
@@ -411,7 +436,13 @@ def certificates():
             db.session.commit()
         except Exception:
             db.session.rollback()
-            target.unlink(missing_ok=True)
+            if blob_reference:
+                try:
+                    delete_file(blob_reference)
+                except BlobStorageError:
+                    pass
+            elif target:
+                target.unlink(missing_ok=True)
             flash('Certificate could not be saved.', 'error')
             return redirect(url_for('admin.certificates'))
 
@@ -460,16 +491,35 @@ def edit_certificate(certificate_id):
                 flash('Uploaded file must be a valid PDF.', 'error')
                 return redirect(url_for('admin.edit_certificate', certificate_id=certificate.id))
 
-            upload_dir = Path(current_app.config['UPLOAD_FOLDER']).resolve()
-            upload_dir.mkdir(parents=True, exist_ok=True)
+            new_filename = secure_filename(
+                f'cert_{number}_{datetime.utcnow().strftime("%Y%m%d%H%M%S")}'
+            ) + '.pdf'
 
-            old_path = upload_dir / certificate.file_name
-            old_path.unlink(missing_ok=True)
+            old_reference = certificate.file_name
+            new_reference = None
+            target = None
 
-            new_filename = secure_filename(f'cert_{number}_{datetime.utcnow().strftime("%Y%m%d%H%M%S")}') + '.pdf'
-            target = upload_dir / new_filename
-            pdf.save(target)
-            certificate.file_name = new_filename
+            try:
+                if blob_enabled():
+                    new_reference = upload_pdf(pdf, 'certificates', new_filename)
+                    certificate.file_name = new_reference
+                else:
+                    upload_dir = Path(current_app.config['UPLOAD_FOLDER']).resolve()
+                    upload_dir.mkdir(parents=True, exist_ok=True)
+                    old_path = upload_dir / old_reference
+                    old_path.unlink(missing_ok=True)
+                    target = upload_dir / new_filename
+                    pdf.save(target)
+                    certificate.file_name = new_filename
+
+                if blob_enabled() and old_reference != certificate.file_name:
+                    try:
+                        delete_file(old_reference)
+                    except BlobStorageError:
+                        pass
+            except BlobStorageError as exc:
+                flash(str(exc), 'error')
+                return redirect(url_for('admin.edit_certificate', certificate_id=certificate.id))
 
         student = db.session.get(Student, certificate.student_id)
         if student:
@@ -493,8 +543,14 @@ def delete_certificate(certificate_id):
         return redirect(url_for('admin.certificates'))
 
     number = certificate.certificate_number
-    upload_dir = Path(current_app.config['UPLOAD_FOLDER']).resolve()
-    (upload_dir / certificate.file_name).unlink(missing_ok=True)
+    if blob_enabled():
+        try:
+            delete_file(certificate.file_name)
+        except BlobStorageError:
+            pass
+    else:
+        upload_dir = Path(current_app.config['UPLOAD_FOLDER']).resolve()
+        (upload_dir / certificate.file_name).unlink(missing_ok=True)
 
     student = db.session.get(Student, certificate.student_id)
     if student and student.certificate_number == certificate.certificate_number:
@@ -529,10 +585,22 @@ def marksheets():
             return redirect(url_for('admin.marksheets'))
 
         filename = secure_filename(f'marksheet_{number}') + '.pdf'
-        upload_dir = Path(current_app.config['UPLOAD_FOLDER']).resolve()
-        upload_dir.mkdir(parents=True, exist_ok=True)
-        target = upload_dir / filename
-        pdf.save(target)
+        target = None
+        blob_reference = None
+
+        try:
+            if blob_enabled():
+                blob_reference = upload_pdf(pdf, 'marksheets', filename)
+                file_reference = blob_reference
+            else:
+                upload_dir = Path(current_app.config['UPLOAD_FOLDER']).resolve()
+                upload_dir.mkdir(parents=True, exist_ok=True)
+                target = upload_dir / filename
+                pdf.save(target)
+                file_reference = filename
+        except BlobStorageError as exc:
+            flash(str(exc), 'error')
+            return redirect(url_for('admin.marksheets'))
 
         issue_date_val = request.form.get('issue_date')
         if issue_date_val:
@@ -549,7 +617,7 @@ def marksheets():
                 student_id=student.id,
                 issue_date=issue_date,
                 status='valid',
-                file_name=filename,
+                file_name=file_reference,
             )
             db.session.add(marksheet)
             student.marksheet_number = number
@@ -557,7 +625,13 @@ def marksheets():
             db.session.commit()
         except Exception:
             db.session.rollback()
-            target.unlink(missing_ok=True)
+            if blob_reference:
+                try:
+                    delete_file(blob_reference)
+                except BlobStorageError:
+                    pass
+            elif target:
+                target.unlink(missing_ok=True)
             flash('Marksheet could not be saved.', 'error')
             return redirect(url_for('admin.marksheets'))
 
@@ -606,16 +680,32 @@ def edit_marksheet(marksheet_id):
                 flash('Uploaded file must be a valid PDF.', 'error')
                 return redirect(url_for('admin.edit_marksheet', marksheet_id=marksheet.id))
 
-            upload_dir = Path(current_app.config['UPLOAD_FOLDER']).resolve()
-            upload_dir.mkdir(parents=True, exist_ok=True)
+            new_filename = secure_filename(
+                f'marksheet_{number}_{datetime.utcnow().strftime("%Y%m%d%H%M%S")}'
+            ) + '.pdf'
 
-            old_path = upload_dir / marksheet.file_name
-            old_path.unlink(missing_ok=True)
+            old_reference = marksheet.file_name
+            target = None
 
-            new_filename = secure_filename(f'marksheet_{number}_{datetime.utcnow().strftime("%Y%m%d%H%M%S")}') + '.pdf'
-            target = upload_dir / new_filename
-            pdf.save(target)
-            marksheet.file_name = new_filename
+            try:
+                if blob_enabled():
+                    new_reference = upload_pdf(pdf, 'marksheets', new_filename)
+                    marksheet.file_name = new_reference
+                    try:
+                        delete_file(old_reference)
+                    except BlobStorageError:
+                        pass
+                else:
+                    upload_dir = Path(current_app.config['UPLOAD_FOLDER']).resolve()
+                    upload_dir.mkdir(parents=True, exist_ok=True)
+                    old_path = upload_dir / old_reference
+                    old_path.unlink(missing_ok=True)
+                    target = upload_dir / new_filename
+                    pdf.save(target)
+                    marksheet.file_name = new_filename
+            except BlobStorageError as exc:
+                flash(str(exc), 'error')
+                return redirect(url_for('admin.edit_marksheet', marksheet_id=marksheet.id))
 
         student = db.session.get(Student, marksheet.student_id)
         if student:
@@ -639,8 +729,14 @@ def delete_marksheet(marksheet_id):
         return redirect(url_for('admin.marksheets'))
 
     number = marksheet.marksheet_number
-    upload_dir = Path(current_app.config['UPLOAD_FOLDER']).resolve()
-    (upload_dir / marksheet.file_name).unlink(missing_ok=True)
+    if blob_enabled():
+        try:
+            delete_file(marksheet.file_name)
+        except BlobStorageError:
+            pass
+    else:
+        upload_dir = Path(current_app.config['UPLOAD_FOLDER']).resolve()
+        (upload_dir / marksheet.file_name).unlink(missing_ok=True)
 
     student = db.session.get(Student, marksheet.student_id)
     if student and student.marksheet_number == marksheet.marksheet_number:

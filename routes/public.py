@@ -6,12 +6,14 @@ from flask import (
     render_template,
     request,
     send_from_directory,
+    send_file,
 )
 from sqlalchemy import or_
 from werkzeug.exceptions import BadRequest
 
 from extensions import db, limiter
 from models import Certificate, ContactMessage, Course, Marksheet, Student
+from services.blob_storage import blob_enabled, download_to_temp, BlobStorageError
 
 public_bp = Blueprint("public", __name__)
 
@@ -309,12 +311,28 @@ def view_certificate(certificate_id):
     ):
         abort(404)
 
-    response = send_from_directory(
-        current_app.config["UPLOAD_FOLDER"],
-        certificate.file_name,
-        as_attachment=False,
-        mimetype="application/pdf",
-    )
+    if blob_enabled():
+        try:
+            temp_path = download_to_temp(certificate.file_name)
+        except BlobStorageError:
+            abort(404)
+
+        response = send_file(
+            temp_path,
+            mimetype="application/pdf",
+            as_attachment=False,
+            download_name="certificate.pdf",
+        )
+        response.call_on_close(
+            lambda path=temp_path: path.unlink(missing_ok=True)
+        )
+    else:
+        response = send_from_directory(
+            current_app.config["UPLOAD_FOLDER"],
+            certificate.file_name,
+            as_attachment=False,
+            mimetype="application/pdf",
+        )
 
     # Sensitive certificate files should not be cached.
     response.headers["Cache-Control"] = (
@@ -354,12 +372,28 @@ def view_marksheet(marksheet_id):
     ):
         abort(404)
 
-    response = send_from_directory(
-        current_app.config["UPLOAD_FOLDER"],
-        marksheet.file_name,
-        as_attachment=False,
-        mimetype="application/pdf",
-    )
+    if blob_enabled():
+        try:
+            temp_path = download_to_temp(marksheet.file_name)
+        except BlobStorageError:
+            abort(404)
+
+        response = send_file(
+            temp_path,
+            mimetype="application/pdf",
+            as_attachment=False,
+            download_name="marksheet.pdf",
+        )
+        response.call_on_close(
+            lambda path=temp_path: path.unlink(missing_ok=True)
+        )
+    else:
+        response = send_from_directory(
+            current_app.config["UPLOAD_FOLDER"],
+            marksheet.file_name,
+            as_attachment=False,
+            mimetype="application/pdf",
+        )
 
     # Sensitive marksheet files should not be cached.
     response.headers["Cache-Control"] = (
