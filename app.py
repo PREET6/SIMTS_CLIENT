@@ -1,3 +1,4 @@
+# Updated `app.py`
 import os
 import sys
 
@@ -172,6 +173,7 @@ def sync_database_schema(app):
                 print(
                     f"\n[!] Notice during schema sync: {e}"
                 )
+
                 print(
                     "    Make sure your PostgreSQL database is "
                     "available.\n"
@@ -257,18 +259,17 @@ def create_app(config_class=Config):
 
     if is_vercel:
 
+        # IMPORTANT:
+        # Use "or" so an empty Vercel environment variable
+        # does NOT produce an empty path.
         app.config['UPLOAD_FOLDER'] = (
-            os.getenv(
-                'UPLOAD_FOLDER',
-                '/tmp/simts_uploads'
-            )
+            os.getenv('UPLOAD_FOLDER')
+            or '/tmp/simts_uploads'
         )
 
         app.config['BACKUP_FOLDER'] = (
-            os.getenv(
-                'BACKUP_FOLDER',
-                '/tmp/simts_backups'
-            )
+            os.getenv('BACKUP_FOLDER')
+            or '/tmp/simts_backups'
         )
 
         # /tmp is writable on Vercel
@@ -457,3 +458,4 @@ if __name__ == '__main__':
         port=port,
         debug=debug
     )
+
