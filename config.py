@@ -26,7 +26,7 @@ class Config:
 
     UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', str(BASE_DIR / 'uploads'))
     BACKUP_FOLDER = os.getenv('BACKUP_FOLDER', str(BASE_DIR / 'backups'))
-    MAX_CONTENT_LENGTH = int(os.getenv('MAX_CONTENT_LENGTH') or '10485760'))
+    MAX_CONTENT_LENGTH = int(os.getenv('MAX_CONTENT_LENGTH') or '10485760')
 
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = 'Lax'
@@ -35,7 +35,7 @@ class Config:
     REMEMBER_COOKIE_SAMESITE = 'Lax'
     REMEMBER_COOKIE_SECURE = SESSION_COOKIE_SECURE
 
-    WTF_CSRF_TIME_LIMIT = int(os.getenv('WTF_CSRF_TIME_LIMIT', '3600'))
+    WTF_CSRF_TIME_LIMIT = int(os.getenv('WTF_CSRF_TIME_LIMIT') or '3600')
     RATELIMIT_STORAGE_URI = os.getenv('RATELIMIT_STORAGE_URI', 'memory://')
 
     DEBUG = env_bool('FLASK_DEBUG', False)
