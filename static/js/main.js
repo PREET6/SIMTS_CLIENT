@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',()=>{const n=document.getElementById('navToggle'),s=document.getElementById('siteNav');if(n&&s)n.onclick=()=>s.classList.toggle('open');const a=document.getElementById('adminMenu'),b=document.getElementById('adminSidebar');if(a&&b)a.onclick=()=>b.classList.toggle('open');});

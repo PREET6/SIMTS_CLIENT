@@ -1,0 +1,1331 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+
+/* =========================================================
+   ROOT / GLOBAL
+   ========================================================= */
+
+:root {
+    --navy: #0b1f3a;
+    --blue: #1456d9;
+    --ink: #172033;
+    --muted: #64748b;
+    --line: #e5eaf1;
+    --bg: #f7f9fc;
+    --white: #ffffff;
+    --green: #0f8a5f;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', Arial, sans-serif;
+    line-height: 1.65;
+}
+
+img {
+    max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.site-header {
+    background: #ffffff;
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 3px 15px rgba(15, 30, 55, 0.04);
+}
+
+.nav-wrap {
+    max-width: 1180px;
+    min-height: 76px;
+    margin: auto;
+    padding: 10px 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+
+/* =========================================================
+   HEADER BRAND / SIMTS LOGO
+   ========================================================= */
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    text-decoration: none;
+    color: var(--navy);
+
+    flex-shrink: 0;
+}
+
+.brand-logo {
+    display: block;
+
+    width: auto;
+    height: 58px;
+    max-width: 155px;
+
+    object-fit: contain;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.brand-text strong {
+    display: block;
+
+    font-family: 'Manrope', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.brand-text small {
+    display: block;
+
+    margin-top: 4px;
+
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 600;
+
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+
+/* =========================================================
+   BACKWARD COMPATIBILITY
+   Keeps old brand-mark elements from breaking
+   ========================================================= */
+
+.brand-mark,
+.auth-logo {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 12px;
+
+    background: var(--navy);
+    color: #ffffff;
+
+    display: grid;
+    place-items: center;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.site-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+}
+
+.site-nav a {
+    position: relative;
+
+    padding: 9px 11px;
+
+    border-radius: 8px;
+
+    color: #334155;
+    text-decoration: none;
+
+    font-weight: 600;
+    font-size: 14px;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+.site-nav a:hover {
+    color: var(--blue);
+    background: #f1f6ff;
+}
+
+.site-nav a::after {
+    content: "";
+
+    position: absolute;
+
+    left: 12px;
+    right: 12px;
+    bottom: 3px;
+
+    height: 2px;
+
+    background: var(--blue);
+
+    transform: scaleX(0);
+    transform-origin: center;
+
+    transition: transform 0.2s ease;
+}
+
+.site-nav a:hover::after {
+    transform: scaleX(1);
+}
+
+
+/* =========================================================
+   MOBILE NAVIGATION BUTTON
+   ========================================================= */
+
+.nav-toggle {
+    display: none;
+
+    width: 42px;
+    height: 42px;
+
+    border: 0;
+    border-radius: 9px;
+
+    background: var(--navy);
+    color: #ffffff;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero {
+    background: linear-gradient(115deg, #0b1f3a, #12386c);
+    color: #ffffff;
+}
+
+.hero-inner {
+    max-width: 1180px;
+
+    margin: auto;
+    padding: 88px 22px;
+
+    display: grid;
+    grid-template-columns: 1.35fr 0.65fr;
+
+    gap: 60px;
+
+    align-items: center;
+}
+
+.eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+
+    color: var(--blue);
+
+    text-transform: uppercase;
+}
+
+.hero .eyebrow {
+    color: #a9c5ff;
+}
+
+.hero h1,
+.page-hero h1,
+.verification-hero h1 {
+    margin: 15px 0 20px;
+
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+
+    font-size: clamp(40px, 6vw, 66px);
+    line-height: 1.08;
+
+    letter-spacing: -0.04em;
+}
+
+.hero h1 span {
+    color: #9ec2ff;
+}
+
+.hero p {
+    max-width: 670px;
+
+    color: #d7e2f5;
+
+    font-size: 18px;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    margin-top: 28px;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 9px;
+
+    padding: 12px 18px;
+
+    text-decoration: none;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn.primary {
+    background: var(--blue);
+    color: #ffffff;
+}
+
+.btn.light {
+    background: #ffffff;
+    color: var(--navy);
+}
+
+.btn.full {
+    width: 100%;
+}
+
+
+/* =========================================================
+   HERO PANEL
+   ========================================================= */
+
+.hero-panel,
+.verify-card,
+.result-card,
+.form-card,
+.service-card,
+.course-card,
+.empty-card {
+    background: #ffffff;
+
+    border: 1px solid var(--line);
+
+    border-radius: 16px;
+}
+
+.hero-panel {
+    background: rgba(255, 255, 255, 0.09);
+
+    border-color: rgba(255, 255, 255, 0.15);
+
+    padding: 30px;
+}
+
+.hero-panel h3 {
+    color: #ffffff;
+
+    font-family: 'Manrope', sans-serif;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.panel-icon,
+.verify-icon {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 14px;
+
+    background: #e9f7f1;
+    color: var(--green);
+
+    display: grid;
+    place-items: center;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+
+.section {
+    max-width: 1180px;
+
+    margin: auto;
+
+    padding: 78px 22px;
+}
+
+.section.muted {
+    max-width: none;
+
+    background: #f0f4f9;
+}
+
+.section.muted > * {
+    max-width: 1136px;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section-head {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-end;
+
+    margin-bottom: 30px;
+}
+
+.section h2 {
+    margin: 7px 0;
+
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   SERVICES
+   ========================================================= */
+
+.service-grid {
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+    gap: 18px;
+}
+
+.service-card,
+.course-card,
+.empty-card {
+    padding: 27px;
+
+    text-decoration: none;
+    color: var(--ink);
+
+    box-shadow: 0 7px 25px rgba(15, 30, 55, 0.03);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow: 0 12px 30px rgba(15, 30, 55, 0.08);
+}
+
+.service-number,
+.course-code {
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.1em;
+
+    color: var(--blue);
+}
+
+.service-card h3,
+.course-card h3 {
+    margin: 25px 0 7px;
+
+    font-family: 'Manrope', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.service-card p,
+.course-card p {
+    color: var(--muted);
+
+    font-size: 14px;
+}
+
+.arrow {
+    display: block;
+
+    margin-top: 18px;
+
+    color: var(--blue);
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   COURSES
+   ========================================================= */
+
+.course-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 18px;
+}
+
+.course-card.large h2 {
+    font-family: 'Manrope', sans-serif;
+    font-size: 27px;
+    font-weight: 800;
+}
+
+.course-facts,
+.result-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+
+    margin: 20px 0;
+}
+
+.course-facts div {
+    background: #f7f9fc;
+
+    padding: 12px;
+
+    border-radius: 9px;
+}
+
+.course-facts small,
+.result-grid small {
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+.course-facts strong,
+.result-grid strong {
+    font-size: 13px;
+}
+
+.course-meta {
+    display: flex;
+
+    justify-content: space-between;
+
+    border-top: 1px solid var(--line);
+
+    padding-top: 15px;
+    margin-top: 22px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   OLD TRUST STRIP
+   ========================================================= */
+
+.trust-strip {
+    max-width: 1136px;
+
+    margin: auto;
+
+    padding: 32px 22px;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.trust-strip div {
+    border-left: 2px solid #dce6f5;
+
+    padding-left: 20px;
+}
+
+.trust-strip strong,
+.trust-strip span {
+    display: block;
+}
+
+.trust-strip span {
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   PAGE HERO
+   ========================================================= */
+
+.page-hero,
+.verification-hero {
+    max-width: 1180px;
+
+    margin: auto;
+
+    padding: 75px 22px 50px;
+}
+
+.page-hero {
+    border-bottom: 1px solid var(--line);
+}
+
+.page-hero h1,
+.verification-hero h1 {
+    color: var(--navy);
+
+    font-size: 48px;
+}
+
+.page-hero p,
+.verification-hero p {
+    max-width: 650px;
+
+    color: var(--muted);
+}
+
+
+/* =========================================================
+   VERIFICATION
+   ========================================================= */
+
+.verify-section {
+    max-width: 1000px;
+
+    margin: auto;
+
+    padding: 20px 22px 85px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 22px;
+}
+
+.verify-card,
+.result-card,
+.form-card {
+    padding: 30px;
+
+    box-shadow: 0 10px 35px rgba(20, 35, 65, 0.04);
+}
+
+.verify-card h2,
+.result-card h2,
+.form-card h2 {
+    font-family: 'Manrope', sans-serif;
+
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.verify-form {
+    margin-top: 22px;
+}
+
+.verify-form label,
+.form-card label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+
+    padding: 12px 13px;
+
+    border: 1px solid #d7dee8;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: var(--ink);
+
+    font: inherit;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--blue);
+
+    box-shadow: 0 0 0 3px rgba(20, 86, 217, 0.10);
+}
+
+.verify-form input {
+    margin-bottom: 14px;
+}
+
+.privacy-note,
+.security-note {
+    margin-top: 18px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+.result-card.verified {
+    border-top: 4px solid var(--green);
+}
+
+.result-card.not-found {
+    border-top: 4px solid #d97706;
+}
+
+.result-status {
+    color: var(--green);
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+}
+
+.not-found .result-status {
+    color: #b45309;
+}
+
+
+/* =========================================================
+   CONTACT
+   ========================================================= */
+
+.contact-section {
+    max-width: 1050px;
+
+    margin: auto;
+
+    padding: 35px 22px 90px;
+
+    display: grid;
+
+    grid-template-columns: 0.8fr 1.2fr;
+
+    gap: 50px;
+}
+
+.contact-info h2 {
+    font-family: 'Manrope', sans-serif;
+
+    font-size: 36px;
+
+    font-weight: 800;
+}
+
+.info-item {
+    border-top: 1px solid var(--line);
+
+    padding: 17px 0;
+}
+
+.info-item strong,
+.info-item span {
+    display: block;
+}
+
+.info-item span {
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+.form-card form {
+    display: grid;
+
+    gap: 7px;
+}
+
+.form-card textarea {
+    min-height: 145px;
+    resize: vertical;
+}
+
+
+/* =========================================================
+   FLASH MESSAGES
+   ========================================================= */
+
+.flash-wrap {
+    max-width: 1136px;
+
+    margin: 14px auto;
+}
+
+.flash {
+    padding: 12px 15px;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+}
+
+.flash.success {
+    background: #e8f7ef;
+
+    color: #166534;
+}
+
+.flash.error {
+    background: #feecec;
+
+    color: #991b1b;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.site-footer {
+    background: #0b1f3a;
+
+    color: #d4deec;
+
+    padding: 55px 22px 0;
+}
+
+.footer-grid {
+    max-width: 1136px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: 2fr 1fr 1fr;
+
+    gap: 40px;
+}
+
+.footer-grid a {
+    display: block;
+
+    color: #b9c7da;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    margin: 8px 0;
+
+    transition: color 0.2s ease;
+}
+
+.footer-grid a:hover {
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   FOOTER BRAND + LOGO
+   ========================================================= */
+
+.footer-brand-row {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 15px;
+}
+
+.footer-logo {
+    display: block;
+
+    width: auto;
+    height: 55px;
+    max-width: 140px;
+
+    object-fit: contain;
+
+    background: #ffffff;
+
+    border-radius: 7px;
+
+    padding: 4px;
+}
+
+.footer-brand {
+    display: flex;
+
+    flex-direction: column;
+
+    color: #ffffff;
+
+    font-family: 'Manrope', sans-serif;
+
+    font-size: 24px;
+
+    font-weight: 800;
+}
+
+.footer-brand small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #94a3b8;
+
+    font-family: 'DM Sans', sans-serif;
+
+    font-size: 10px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.06em;
+
+    text-transform: uppercase;
+}
+
+.footer-about p {
+    max-width: 410px;
+
+    margin: 0;
+
+    color: #94a3b8;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   TRUST / ACCREDITATION LOGOS
+   ========================================================= */
+
+.trust-section {
+    max-width: 1136px;
+
+    margin: 45px auto 0;
+
+    padding: 35px 0;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+
+    text-align: center;
+}
+
+.trust-section h3 {
+    margin: 0 0 25px;
+
+    color: #ffffff;
+
+    font-family: 'Manrope', sans-serif;
+
+    font-size: 18px;
+
+    font-weight: 700;
+}
+
+.trust-logos {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 22px;
+}
+
+.trust-logo {
+    width: 190px;
+    height: 90px;
+
+    padding: 8px 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 10px;
+
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.trust-logo:hover {
+    transform: translateY(-3px);
+
+    box-shadow: 0 9px 24px rgba(0, 0, 0, 0.18);
+}
+
+.trust-logo img {
+    display: block;
+
+    width: auto;
+    height: auto;
+
+    max-width: 165px;
+    max-height: 72px;
+
+    object-fit: contain;
+}
+
+
+/* =========================================================
+   FOOTER BOTTOM
+   ========================================================= */
+
+.footer-bottom {
+    max-width: 1136px;
+
+    min-height: 65px;
+
+    margin: 0 auto;
+
+    padding-top: 18px;
+
+    border-top: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    color: #7f91a9;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .nav-wrap {
+        min-height: 70px;
+    }
+
+    .brand-text {
+        display: none;
+    }
+
+    .brand-logo {
+        height: 54px;
+        max-width: 145px;
+    }
+
+    .site-nav {
+        gap: 0;
+    }
+
+    .site-nav a {
+        padding: 8px 9px;
+
+        font-size: 13px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1.4fr 1fr 1fr;
+
+        gap: 30px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+    .nav-wrap {
+        min-height: 68px;
+
+        padding: 9px 20px;
+    }
+
+    .brand-logo {
+        height: 50px;
+        max-width: 135px;
+    }
+
+    .brand-text {
+        display: none;
+    }
+
+    .nav-toggle {
+        display: flex;
+    }
+
+    .site-nav {
+        position: absolute;
+
+        top: 68px;
+
+        left: 0;
+        right: 0;
+
+        display: none;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 2px;
+
+        padding: 12px 20px;
+
+        background: #ffffff;
+
+        border-bottom: 1px solid var(--line);
+
+        box-shadow: 0 12px 28px rgba(15, 30, 55, 0.10);
+    }
+
+    /* Supports both main.js class names */
+    .site-nav.open,
+    .site-nav.active {
+        display: flex;
+    }
+
+    .site-nav a {
+        width: 100%;
+
+        min-height: 45px;
+
+        padding: 12px 14px;
+
+        border-radius: 8px;
+    }
+
+    .site-nav a::after {
+        display: none;
+    }
+
+    .hero-inner,
+    .verify-section,
+    .contact-section {
+        grid-template-columns: 1fr;
+    }
+
+    .service-grid,
+    .course-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .trust-strip {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE — SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 560px) {
+
+    .nav-wrap {
+        width: 100%;
+
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .brand-logo {
+        height: 46px;
+        max-width: 125px;
+    }
+
+    .service-grid,
+    .course-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .page-hero h1,
+    .verification-hero h1 {
+        font-size: 38px;
+    }
+
+    .result-grid,
+    .course-facts {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-logo {
+        height: 50px;
+        max-width: 125px;
+    }
+
+    .trust-section {
+        margin-top: 35px;
+
+        padding: 30px 0;
+    }
+
+    .trust-logos {
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .trust-logo {
+        width: min(280px, 95%);
+
+        height: 95px;
+    }
+
+    .trust-logo img {
+        max-width: 235px;
+        max-height: 78px;
+    }
+
+    .footer-bottom {
+        min-height: auto;
+
+        padding: 20px 0;
+
+        flex-direction: column;
+
+        text-align: center;
+
+        gap: 7px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .brand-logo {
+        height: 43px;
+        max-width: 115px;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .page-hero h1,
+    .verification-hero h1 {
+        font-size: 34px;
+    }
+
+    .trust-section,
+    .footer-grid,
+    .footer-bottom {
+        width: 94%;
+    }
+
+    .trust-logo {
+        width: 95%;
+    }
+}
