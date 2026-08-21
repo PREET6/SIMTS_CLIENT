@@ -1,6 +1,4 @@
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
-
 /* =========================================================
    ROOT / GLOBAL
    ========================================================= */
@@ -28,7 +26,7 @@ body {
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font-family: 'DM Sans', Arial, sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
     line-height: 1.65;
 }
 
@@ -104,7 +102,7 @@ textarea {
 .brand-text strong {
     display: block;
 
-    font-family: 'Manrope', sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
     font-size: 18px;
     font-weight: 800;
 }
@@ -271,7 +269,7 @@ textarea {
 .verification-hero h1 {
     margin: 15px 0 20px;
 
-    font-family: 'Manrope', sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
     font-weight: 800;
 
     font-size: clamp(40px, 6vw, 66px);
@@ -378,7 +376,7 @@ textarea {
 .hero-panel h3 {
     color: #ffffff;
 
-    font-family: 'Manrope', sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
     font-size: 23px;
     font-weight: 700;
 }
@@ -437,7 +435,7 @@ textarea {
 .section h2 {
     margin: 7px 0;
 
-    font-family: 'Manrope', sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
     font-size: clamp(28px, 4vw, 40px);
     font-weight: 800;
 }
@@ -491,7 +489,7 @@ textarea {
 .course-card h3 {
     margin: 25px 0 7px;
 
-    font-family: 'Manrope', sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
     font-size: 22px;
     font-weight: 700;
 }
@@ -527,7 +525,7 @@ textarea {
 }
 
 .course-card.large h2 {
-    font-family: 'Manrope', sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
     font-size: 27px;
     font-weight: 800;
 }
@@ -678,7 +676,7 @@ textarea {
 .verify-card h2,
 .result-card h2,
 .form-card h2 {
-    font-family: 'Manrope', sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
 
     font-size: 25px;
     font-weight: 800;
@@ -788,7 +786,7 @@ textarea:focus {
 }
 
 .contact-info h2 {
-    font-family: 'Manrope', sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
 
     font-size: 36px;
 
@@ -935,7 +933,7 @@ textarea:focus {
 
     color: #ffffff;
 
-    font-family: 'Manrope', sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
 
     font-size: 24px;
 
@@ -949,7 +947,7 @@ textarea:focus {
 
     color: #94a3b8;
 
-    font-family: 'DM Sans', sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
 
     font-size: 10px;
 
@@ -996,7 +994,7 @@ textarea:focus {
 
     color: #ffffff;
 
-    font-family: 'Manrope', sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
 
     font-size: 18px;
 
@@ -1327,5 +1325,331 @@ textarea:focus {
 
     .trust-logo {
         width: 95%;
+    }
+}
+
+/* =========================================================
+   SIMTS PERFORMANCE + CONTENT UPDATE
+   ========================================================= */
+
+.course-description {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.course-facts .fee-fact {
+    grid-column: 1 / -1;
+}
+
+.course-facts .fee-fact strong {
+    color: var(--navy);
+    font-size: 15px;
+}
+
+.field-help {
+    display: block;
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.about-hero {
+    background: linear-gradient(115deg, #0b1f3a, #12386c);
+    color: #fff;
+}
+
+.about-hero-inner {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 85px 22px 78px;
+    text-align: center;
+}
+
+.about-hero .eyebrow {
+    color: #a9c5ff;
+}
+
+.about-hero h1 {
+    max-width: 820px;
+    margin: 15px auto 18px;
+    font-size: clamp(38px, 6vw, 62px);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+    font-weight: 800;
+}
+
+.about-hero p {
+    max-width: 760px;
+    margin: 0 auto;
+    color: #d7e2f5;
+    font-size: 18px;
+}
+
+.about-section {
+    padding-top: 72px;
+    padding-bottom: 72px;
+}
+
+.about-intro {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 55px;
+    align-items: start;
+    margin-bottom: 42px;
+}
+
+.about-intro h2,
+.about-highlight h2,
+.about-values h2 {
+    margin: 8px 0 0;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.15;
+}
+
+.about-intro > p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.85;
+}
+
+.about-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.about-card {
+    padding: 28px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 8px 28px rgba(15, 30, 55, 0.04);
+}
+
+.about-icon {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: #eaf1ff;
+    color: var(--blue);
+    font-weight: 800;
+    font-size: 12px;
+}
+
+.about-card h3 {
+    margin: 20px 0 8px;
+    font-size: 20px;
+}
+
+.about-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+.about-highlight {
+    background: #eef4fb;
+}
+
+.about-highlight-inner {
+    max-width: 1136px;
+    margin: 0 auto;
+    padding: 70px 22px;
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: 55px;
+    align-items: center;
+}
+
+.about-highlight-inner p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.85;
+}
+
+.about-value-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.about-value-grid > div {
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #fff;
+}
+
+.about-value-grid strong,
+.about-value-grid span {
+    display: block;
+}
+
+.about-value-grid strong {
+    margin-bottom: 7px;
+    color: var(--navy);
+}
+
+.about-value-grid span {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 20px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+@media (max-width: 850px) {
+    .hero-inner {
+        text-align: center;
+        gap: 35px;
+        padding-top: 65px;
+        padding-bottom: 65px;
+    }
+
+    .hero-inner > div:first-child {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .hero-actions .btn {
+        min-width: 175px;
+    }
+
+    .section-head {
+        align-items: center;
+        text-align: center;
+    }
+
+    .section-head > div {
+        width: 100%;
+    }
+
+    .page-hero,
+    .verification-hero {
+        text-align: center;
+    }
+
+    .page-hero p,
+    .verification-hero p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .about-intro,
+    .about-highlight-inner {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        text-align: center;
+    }
+
+    .about-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .about-card {
+        text-align: center;
+    }
+
+    .about-icon {
+        margin: 0 auto;
+    }
+
+    .about-value-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .course-card.large,
+    .course-card {
+        text-align: center;
+    }
+
+    .course-facts {
+        text-align: left;
+    }
+
+    .course-meta {
+        justify-content: center;
+        gap: 25px;
+        flex-wrap: wrap;
+    }
+
+    .trust-strip {
+        text-align: center;
+    }
+
+    .trust-strip div {
+        border-left: 0;
+        border-top: 2px solid #dce6f5;
+        padding: 15px 0 0;
+    }
+
+    .footer-grid,
+    .footer-about {
+        text-align: center;
+    }
+
+    .footer-brand-row {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 560px) {
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-actions .btn {
+        width: min(260px, 100%);
+        min-width: 0;
+    }
+
+    .about-hero-inner {
+        padding-top: 62px;
+        padding-bottom: 60px;
+    }
+
+    .about-hero h1 {
+        font-size: 37px;
+    }
+
+    .about-value-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .course-facts {
+        grid-template-columns: 1fr;
+    }
+
+    .course-facts .fee-fact {
+        grid-column: auto;
     }
 }

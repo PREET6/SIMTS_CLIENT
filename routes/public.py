@@ -54,6 +54,15 @@ def find_student(query):
     if not query or len(query) > 200:
         return None
 
+    student = Student.query.filter(
+        or_(
+            Student.student_id == query,
+            Student.email == query,
+        )
+    ).first()
+    if student:
+        return student
+
     return Student.query.filter(
         or_(
             Student.student_id.ilike(query),
@@ -409,6 +418,15 @@ def view_marksheet(marksheet_id):
     response.headers["Content-Disposition"] = "inline"
 
     return response
+
+
+# ============================================================
+# ABOUT US
+# ============================================================
+
+@public_bp.route("/about")
+def about():
+    return render_template("about.html")
 
 
 # ============================================================

@@ -29,6 +29,7 @@ class Course(db.Model):
     course_name = db.Column(db.String(200), nullable=False)
     duration = db.Column(db.String(100))
     eligibility = db.Column(db.String(500))
+    fees = db.Column(db.Numeric(10, 2), nullable=True)
     description = db.Column(db.Text)
     status = db.Column(db.String(30), default='active', nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)

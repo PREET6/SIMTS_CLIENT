@@ -31,6 +31,13 @@
                 <input name="eligibility" value="{{ course.eligibility if course else '' }}" placeholder="e.g. 10+2 / High School">
             </div>
             <div>
+                <label>Course Fees (₹ / Year)</label>
+                <input name="fees" type="number" min="0" max="99999999" step="0.01"
+                       value="{{ ('%.2f'|format(course.fees|float)) if course and course.fees is not none else '' }}"
+                       placeholder="e.g. 10000">
+                <small class="field-help">Enter the annual fee. Leave blank if fees are on request.</small>
+            </div>
+            <div>
                 <label>Status</label>
                 <select name="status">
                     <option value="active" {% if course and course.status == 'active' %}selected{% endif %}>active</option>
@@ -40,7 +47,13 @@
         </div>
         <div>
             <label>Description</label>
-            <textarea name="description" placeholder="Course details and overview...">{{ course.description if course else '' }}</textarea>
+            <textarea name="description" rows="8" placeholder="Write each point on a new line, for example:
+1. Semester 1
+2. Semester 2
+3. Semester 3
+4. Semester 4
+Credits: 120">{{ course.description if course else '' }}</textarea>
+            <small class="field-help">Line breaks are preserved on the public course page.</small>
         </div>
         <div style="display: flex; gap: 10px; margin-top: 10px;">
             <button type="submit" class="btn primary">{% if course %}Update Course{% else %}Save Course{% endif %}</button>

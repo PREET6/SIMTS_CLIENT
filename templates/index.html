@@ -70,10 +70,14 @@
         <article class="course-card">
             <span class="course-code">{{ c.course_code }}</span>
             <h3>{{ c.course_name }}</h3>
-            <p>{{ c.description or 'Academic program information is available through the SIMTS portal.' }}</p>
+            <div class="course-description">
+                {{ c.description or 'Academic program information is available through the SIMTS portal.' }}
+            </div>
             <div class="course-meta">
                 <span>{{ c.duration or 'Flexible duration' }}</span>
-                <span>SIMTS</span>
+                <span>
+                    {% if c.fees is not none %}₹{{ '%.2f'|format(c.fees|float) }}/Year{% else %}Fees on request{% endif %}
+                </span>
             </div>
         </article>
         {% else %}

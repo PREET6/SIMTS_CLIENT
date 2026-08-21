@@ -18,16 +18,20 @@
             <span class="badge {{ c.status }}">{{ c.status }}</span>
         </div>
         <h2>{{ c.course_name }}</h2>
-        <p>{{ c.description or 'No description added.' }}</p>
+        <div class="course-description">{{ c.description or 'No description added.' }}</div>
         <div style="margin: 12px 0;">
             <small style="color: var(--muted); display: block;">Duration & Eligibility</small>
             <strong>{{ c.duration or '—' }}</strong>
             {% if c.eligibility %}
             <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">{{ c.eligibility }}</div>
             {% endif %}
+            <div style="font-size: 13px; margin-top: 8px;">
+                <strong>Fees:</strong>
+                {% if c.fees is not none %}₹{{ '%.2f'|format(c.fees|float) }} / Year{% else %}Fees on request{% endif %}
+            </div>
         </div>
         <div class="card-actions" style="margin-top: 15px; padding-top: 12px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 12px; color: var(--muted);">{{ c.students|length }} students</span>
+            <span style="font-size: 12px; color: var(--muted);">{{ student_counts.get(c.id, 0) }} students</span>
             <div class="btn-group">
                 <a class="btn btn-sm btn-secondary" href="{{ url_for('admin.edit_course', course_id=c.id) }}">Edit</a>
                 <form method="post" action="{{ url_for('admin.delete_course', course_id=c.id) }}" class="inline-form" onsubmit="return confirm('Are you sure you want to delete course {{ c.course_name }} ({{ c.course_code }})?');">

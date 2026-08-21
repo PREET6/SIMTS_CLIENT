@@ -6,6 +6,7 @@ from flask import Blueprint, current_app, flash, redirect, render_template, requ
 from flask_login import current_user, login_required
 from openpyxl import load_workbook
 from werkzeug.utils import secure_filename
+from sqlalchemy import func
 
 from extensions import db
 from models import Admin, AuditLog, Certificate, ContactMessage, Course, Marksheet, Student
@@ -22,6 +23,19 @@ def protect(view):
 
 def clean(value, max_length):
     return (value or '').strip()[:max_length]
+
+
+def parse_course_fee(value):
+    raw = clean(value, 30).replace(',', '')
+    if not raw:
+        return None
+    try:
+        amount = float(raw)
+        if amount < 0 or amount > 99999999:
+            raise ValueError
+        return round(amount, 2)
+    except (TypeError, ValueError):
+        return None
 
 
 def pdf_signature(file_storage):
@@ -63,6 +77,7 @@ def dashboard():
 @protect
 def students():
     q = clean(request.args.get('q'), 200)
+    page = max(request.args.get('page', 1, type=int) or 1, 1)
     query = Student.query
     if q:
         query = query.filter(
@@ -70,7 +85,15 @@ def students():
             (Student.full_name.ilike(f'%{q}%')) |
             (Student.email.ilike(f'%{q}%'))
         )
-    return render_template('admin/students.html', students=query.order_by(Student.id.desc()).all(), q=q)
+    pagination = query.order_by(Student.id.desc()).paginate(
+        page=page, per_page=50, error_out=False
+    )
+    return render_template(
+        'admin/students.html',
+        students=pagination.items,
+        pagination=pagination,
+        q=q
+    )
 
 
 @admin_bp.route('/students/add', methods=['GET', 'POST'])
@@ -290,7 +313,21 @@ def import_students():
 @admin_bp.route('/courses')
 @protect
 def courses():
-    return render_template('admin/courses.html', courses=Course.query.order_by(Course.id.desc()).all())
+    courses = Course.query.order_by(Course.id.desc()).all()
+    counts = dict(
+        db.session.query(
+            Student.course_id,
+            func.count(Student.id)
+        )
+        .filter(Student.course_id.isnot(None))
+        .group_by(Student.course_id)
+        .all()
+    )
+    return render_template(
+        'admin/courses.html',
+        courses=courses,
+        student_counts=counts
+    )
 
 
 @admin_bp.route('/courses/add', methods=['GET', 'POST'])
@@ -311,6 +348,7 @@ def add_course():
             course_name=name,
             duration=clean(request.form.get('duration'), 100),
             eligibility=clean(request.form.get('eligibility'), 500),
+            fees=parse_course_fee(request.form.get('fees')),
             status=clean(request.form.get('status'), 30) or 'active',
             description=(request.form.get('description') or '').strip()[:10000],
         )
@@ -347,6 +385,7 @@ def edit_course(course_id):
         course.course_name = name
         course.duration = clean(request.form.get('duration'), 100)
         course.eligibility = clean(request.form.get('eligibility'), 500)
+        course.fees = parse_course_fee(request.form.get('fees'))
         course.status = clean(request.form.get('status'), 30) or 'active'
         course.description = (request.form.get('description') or '').strip()[:10000]
 

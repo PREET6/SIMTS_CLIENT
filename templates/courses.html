@@ -1,1 +1,32 @@
-{% extends "base.html" %}{% block title %}Courses — SIMTS{% endblock %}{% block content %}<section class="page-hero"><span class="eyebrow">ACADEMIC PROGRAMS</span><h1>Courses & Programs</h1><p>Explore programs currently available through SIMTS.</p></section><section class="section"><div class="course-grid">{% for c in courses %}<article class="course-card large"><span class="course-code">{{c.course_code}}</span><h2>{{c.course_name}}</h2><div class="course-facts"><div><small>Duration</small><strong>{{c.duration or '—'}}</strong></div><div><small>Eligibility</small><strong>{{c.eligibility or 'Contact us'}}</strong></div></div><p>{{c.description or 'Program details are available from academic administration.'}}</p></article>{% else %}<div class="empty-card"><h2>No active courses</h2><p>Please check back later.</p></div>{% endfor %}</div></section>{% endblock %}
+{% extends "base.html" %}
+{% block title %}Courses — SIMTS{% endblock %}
+{% block content %}
+<section class="page-hero">
+    <span class="eyebrow">ACADEMIC PROGRAMS</span>
+    <h1>Courses & Programs</h1>
+    <p>Explore programs currently available through SIMTS, including duration, eligibility and fee information.</p>
+</section>
+<section class="section">
+    <div class="course-grid">
+        {% for c in courses %}
+        <article class="course-card large">
+            <span class="course-code">{{ c.course_code }}</span>
+            <h2>{{ c.course_name }}</h2>
+            <div class="course-facts">
+                <div><small>Duration</small><strong>{{ c.duration or '—' }}</strong></div>
+                <div><small>Eligibility</small><strong>{{ c.eligibility or 'Contact us' }}</strong></div>
+                <div class="fee-fact">
+                    <small>Course Fees</small>
+                    <strong>{% if c.fees is not none %}₹{{ '%.2f'|format(c.fees|float) }} / Year{% else %}Fees on request{% endif %}</strong>
+                </div>
+            </div>
+            <div class="course-description">
+                {{ c.description or 'Program details are available from academic administration.' }}
+            </div>
+        </article>
+        {% else %}
+        <div class="empty-card"><h2>No active courses</h2><p>Please check back later.</p></div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -100,6 +100,16 @@ def sync_database_schema(app):
                                 DEFAULT 'ongoing';
                             END IF;
 
+                            IF NOT EXISTS (
+                                SELECT 1
+                                FROM information_schema.columns
+                                WHERE table_name='course'
+                                AND column_name='fees'
+                            ) THEN
+                                ALTER TABLE course
+                                ADD COLUMN fees NUMERIC(10,2);
+                            END IF;
+
                         END $$;
                     """))
 
@@ -158,6 +168,21 @@ def sync_database_schema(app):
                                 "ALTER TABLE student "
                                 "ADD COLUMN completion_status VARCHAR(50) "
                                 "DEFAULT 'ongoing'"
+                            )
+                        )
+
+                    course_cols = [
+                        row[1]
+                        for row in conn.execute(
+                            db.text("PRAGMA table_info(course)")
+                        ).fetchall()
+                    ]
+
+                    if 'fees' not in course_cols:
+                        conn.execute(
+                            db.text(
+                                "ALTER TABLE course "
+                                "ADD COLUMN fees NUMERIC(10,2)"
                             )
                         )
 
@@ -328,6 +353,12 @@ def create_app(config_class=Config):
     @app.after_request
     def security_headers(response):
 
+        # Cache static CSS/JS/images so repeat navigation does not refetch them.
+        if request.path.startswith('/static/'):
+            response.headers['Cache-Control'] = (
+                'public, max-age=86400, stale-while-revalidate=604800'
+            )
+
         response.headers['X-Content-Type-Options'] = 'nosniff'
 
         response.headers['X-Frame-Options'] = 'SAMEORIGIN'
@@ -349,10 +380,8 @@ def create_app(config_class=Config):
         ] = (
             "default-src 'self'; "
             "img-src 'self' data:; "
-            "style-src 'self' 'unsafe-inline' "
-            "https://fonts.googleapis.com; "
-            "font-src 'self' "
-            "https://fonts.gstatic.com data:; "
+            "style-src 'self' 'unsafe-inline'; "
+            "font-src 'self' data:; "
             "script-src 'self'; "
             "frame-ancestors 'self'; "
             "base-uri 'self'; "
