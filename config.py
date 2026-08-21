@@ -26,7 +26,7 @@ class Config:
 
     UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', str(BASE_DIR / 'uploads'))
     BACKUP_FOLDER = os.getenv('BACKUP_FOLDER', str(BASE_DIR / 'backups'))
-    MAX_CONTENT_LENGTH = int(os.getenv('MAX_CONTENT_LENGTH', '10485760'))
+    MAX_CONTENT_LENGTH = int(os.getenv('MAX_CONTENT_LENGTH') or '10485760'))
 
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = 'Lax'
