@@ -41,5 +41,5 @@ class Config:
     DEBUG = env_bool('FLASK_DEBUG', False)
     TESTING = env_bool('FLASK_TESTING', False)
     TRUST_PROXY = env_bool('TRUST_PROXY', False)
-    MAX_FORM_MEMORY_SIZE = int(os.getenv('MAX_FORM_MEMORY_SIZE', '500000'))
-    MAX_FORM_PARTS = int(os.getenv('MAX_FORM_PARTS', '100'))
+    MAX_FORM_MEMORY_SIZE = int(os.getenv('MAX_FORM_MEMORY_SIZE') or '500000')
+    MAX_FORM_PARTS = int(os.getenv('MAX_FORM_PARTS') or '100')
